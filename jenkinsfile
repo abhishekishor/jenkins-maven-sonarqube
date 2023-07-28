@@ -1,0 +1,65 @@
+pipeline {
+    
+    agent any
+    
+    tools {
+        
+        maven 'mvn'
+        
+    }
+    
+    stages {
+        
+        stage ('Git-Checkout') {
+            
+            steps {
+                
+                git branch: 'master',
+                credentialsId: 'github-token',
+                url: 'https://github.com/abhishekishor/jenkins-maven-sonarqube.git'
+                
+            }
+            
+        }
+        
+        stage ('Maven-build') {
+            
+            steps {
+                
+                sh 'mvn clean package'
+                
+            }
+            
+            post {
+                
+                success {
+                    
+                    archiveArtifacts artifacts: '**/*.jar'
+                    
+                }
+                
+            }
+            
+        }
+        
+        stage ('Sonar') {
+            
+            steps {
+                
+                withSonarQubeEnv('sonar-server') { 
+                    
+                    sh 'mvn sonar:sonar'
+                    //   -Dsonar.projectKey=sonar-project \
+                    //   -Dsonar.host.url=http://52.66.252.23:9000
+                    //   -Dsonar.login=b0097a8dd734154f174ebdb8fc4eab8626357b24
+
+Or 
+
+                    sh 'mvn sonar:sonar'
+                       -Dsonar.projectKey=sonar-project \          
+                       -Dsonar.host.url=http://52.66.252.23:9000
+                       -Dsonar.login=b0097a8dd734154f174ebdb8fc4eab8626357b24
+                    
+                }
+                
+            }
