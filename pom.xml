@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.example</groupId>
-    <artifactId>devops</artifactId>
+    <artifactId>java-web</artifactId>
     <packaging>jar</packaging>
     <version>3.3.0</version>
 
